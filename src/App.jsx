@@ -15,13 +15,7 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   const addTodo = (text) => {
-    const newTodo = {
-      id: Date.now(),
-      text,
-      completed: false,
-    };
-    setTodos([newTodo, ...todos]); 
-    
+    setTodos([{ id: Date.now(), text, completed: false }, ...todos]);
   };
 
   const deleteTodo = (id) => {
@@ -37,35 +31,55 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
       {/* Header */}
-      <header className="flex justify-end mb-6">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+      <header className="flex justify-between items-center px-6 py-4">
+        <h1 className="text-white text-xl font-bold">ToDo App</h1>
         <SignedIn>
-          <UserButton />
+          <UserButton afterSignOutUrl="/" />
         </SignedIn>
       </header>
 
-      {/* App Content */}
+      {/* SIGNED OUT UI */}
       <SignedOut>
-        <p className="text-center text-gray-600">
-          Please sign in to manage your todos.
-        </p>
+        <div className="flex items-center justify-center h-[80vh]">
+          <div className="bg-white/95 backdrop-blur-md p-10 rounded-2xl shadow-2xl text-center max-w-md w-full">
+            <h2 className="text-3xl font-extrabold text-gray-800 mb-4">
+              Organize Your Life 📝
+            </h2>
+
+            <p className="text-gray-600 mb-8">
+              Login to manage your daily tasks, stay productive and never miss
+              anything important.
+            </p>
+
+            <SignInButton>
+              <button className="w-full py-3 bg-indigo-600 text-white rounded-xl font-semibold text-lg hover:bg-indigo-700 transition">
+                Sign In to Continue
+              </button>
+            </SignInButton>
+          </div>
+        </div>
       </SignedOut>
 
+      {/* SIGNED IN UI */}
       <SignedIn>
-        <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
-          <h1 className="text-2xl font-bold mb-4 text-center">
-            React To-Do List
-          </h1>
-          <TodoForm addTodo={addTodo} />
-          <TodoList
-            todos={todos}
-            deleteTodo={deleteTodo}
-            updateTodo={updateTodo}
-          />
+        <div className="flex justify-center mt-10 px-4">
+          <div className="w-full max-w-xl bg-white rounded-2xl shadow-2xl p-6">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+              My To-Do List ✅
+            </h2>
+
+            <TodoForm addTodo={addTodo} />
+
+            <div className="mt-4">
+              <TodoList
+                todos={todos}
+                deleteTodo={deleteTodo}
+                updateTodo={updateTodo}
+              />
+            </div>
+          </div>
         </div>
       </SignedIn>
     </div>
